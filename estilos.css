@@ -1,0 +1,23 @@
+body{
+    background: rgb(73 41 151 / 80%);
+}
+h1{
+    background: whitesmoke;
+}
+.display{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 12px 8px;
+    background-color: rgb(176 215 110 / 72%);
+        height: 75px;
+}
+.display-time{
+   width: 33%; 
+}
+.display-buttons{
+    width: 67%;
+}
+input{
+    max-width: 50px;
+}
