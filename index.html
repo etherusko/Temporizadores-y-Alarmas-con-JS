@@ -8,7 +8,9 @@
     <link href="./estilos.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <header><h1>Temporizadores&Alarmas @ether.labs</h1></header>
+    <header>
+        <h1>Temporizadores&Alarmas @ether.labs</h1>
+    </header>
     <main>
         <section class="display">
             <div class="display-time">
@@ -21,11 +23,15 @@
             </div>            
         </section>
         <section class="display">
-            <button class="ui-btn">+ Crear-nuevo</button>
-            <input type="text" id="inputDays">
-            <input type="text" id="inputHours">
-            <input type="text" id="inputMinuts">
-            <input type="text" id="inputSeconds">
+            <div class="constructor-button">
+                <button class="ui-btn">+ Crear-nuevo</button>
+            </div>
+            <div class="constructor-inputs">
+                <input type="text" id="inputDays">
+                <input type="text" id="inputHours">
+                <input type="text" id="inputMinuts">
+                <input type="text" id="inputSeconds">
+            </div>   
         </section>
     </main>
     <footer></footer>
