@@ -2,18 +2,40 @@ body{
     background: rgb(73 41 151 / 80%);
 }
 
-.display{
+.container{
     display: flex;  
     align-items: center;
-    margin: 16px 6px;
+    /*margin: 16px 6px;*/
     background-color: rgb(176 215 110 / 72%);
     height: 75px;
     max-width: 1000px;
 }
+#constructor{
+    height: 140px;
+    background-color: #090c076b;
+}
+.block{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
 .display-time{
-   width: 44%; 
+   width: 44%;
+   text-align: center;
 }
 .display-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    width: 56%;
+    max-width: 380px;
+}
+.constructor-button{
+    width: 44%; 
+    display: flex;
+    justify-content: center;
+}
+.constructor-inputs{
     display: flex;
     justify-content: space-evenly;
     width: 56%;
@@ -27,27 +49,15 @@ body{
     height: 29px;
     font-size: 16px;
 }
-.constructor-button{
-    width: 44%; 
-    display: flex;
-    justify-items: center;
-    justify-content: center;
-}
 .ui-btn{
     padding: 4px;
-    height: 48px;
+    height: 56px;
     width: 46%;
     min-width: 100px;
     color: #260440;
     background-color: #8475e1;
     border: 3px solid #42397478;
     font-size: 16px;
-}
-.constructor-inputs{
-    display: flex;
-    justify-content: space-evenly;
-    width: 56%;
-    max-width: 380px;;
 }
 input{
     max-width: 50px;
