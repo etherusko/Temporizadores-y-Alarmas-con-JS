@@ -13,14 +13,14 @@
     </header>
     <main>
         <section class="container" id="display">
-            <div class="block">
+            <div class="block" id="0">
                 <div class="display-time">
                     <p>En este párrafo contamos el tiempo</p>
                 </div>
                 <div class="display-buttons">
                     <button class="display-btn" onclick="btnPlayOnClick()">Play</button>
                     <button class="display-btn" onclick="btnReiniciarOnClick()">Reiniciar</button>
-                    <button class="display-btn" onclick="btnBorrarOnClick()">Borrar</button>
+                    <button class="display-btn" onclick="btnBorrarOnClick(document.getElementById('0'))">Borrar</button>
                 </div>
             </div>            
         </section>
@@ -30,10 +30,10 @@
                     <button class="ui-btn" onclick="btnCrearNuevoOnClick()">+ Crear-nuevo</button>
                 </div>
                 <div class="constructor-inputs">
-                    <input type="text" id="inputDays">
-                    <input type="text" id="inputHours">
-                    <input type="text" id="inputMinuts">
-                    <input type="text" id="inputSeconds">
+                    <input type="text" id="inputDays" placeholder="Dias">
+                    <input type="text" id="inputHours" placeholder="Horas">
+                    <input type="text" id="inputMinuts" placeholder="min">
+                    <input type="text" id="inputSeconds" placeholder="secs">
                 </div>
             </div>   
         </section>
