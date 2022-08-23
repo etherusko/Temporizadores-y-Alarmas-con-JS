@@ -1,4 +1,4 @@
-const contenedor = document.getElementById("temp-0");
+const contenedor = document.getElementById("display");
 
 function btnPlayOnClick(){
     console.log("Se ha pulsado el botón Play");
@@ -10,13 +10,16 @@ function btnBorrarOnClick(){
     console.log("Se ha pulsado el botón Borrar");
 }
 function btnCrearNuevoOnClick(){
-
-    /*let displayTime = document.createElement('div');
-    let cuentaRegresiva = document.createElement('p');
+    let block = document.createElement('div');
+    let displayTime = document.createElement('div');
+    let cuentaRegresiva = document.createElement('p'); 
+    block.setAttribute('class','block') 
     displayTime.setAttribute('class', 'display-time');
     cuentaRegresiva.innerText="Un texto simpaticon";
+
     displayTime.appendChild(cuentaRegresiva);
-    contenedor.appendChild(displayTime);*/
+    block.appendChild(displayTime);
+    contenedor.appendChild(block);
 
     console.log("Se ha pulsado el botón Crear Nuevo");
 }

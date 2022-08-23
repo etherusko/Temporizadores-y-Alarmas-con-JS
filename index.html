@@ -12,8 +12,8 @@
         <h1>Temporizadores&Alarmas @ether.labs</h1>
     </header>
     <main>
-        <section class="display" id="mian">
-            <div class="contendor" id="temp-0">
+        <section class="container" id="display">
+            <div class="block">
                 <div class="display-time">
                     <p>En este párrafo contamos el tiempo</p>
                 </div>
@@ -24,15 +24,17 @@
                 </div>
             </div>            
         </section>
-        <section class="display" id="constructor">
-            <div class="constructor-button">
-                <button class="ui-btn" onclick="btnCrearNuevoOnClick()">+ Crear-nuevo</button>
-            </div>
-            <div class="constructor-inputs">
-                <input type="text" id="inputDays">
-                <input type="text" id="inputHours">
-                <input type="text" id="inputMinuts">
-                <input type="text" id="inputSeconds">
+        <section class="container" id="constructor">
+            <div class="block">
+                <div class="constructor-button">
+                    <button class="ui-btn" onclick="btnCrearNuevoOnClick()">+ Crear-nuevo</button>
+                </div>
+                <div class="constructor-inputs">
+                    <input type="text" id="inputDays">
+                    <input type="text" id="inputHours">
+                    <input type="text" id="inputMinuts">
+                    <input type="text" id="inputSeconds">
+                </div>
             </div>   
         </section>
         <script type="text/javascript" src="./temporizador.js"></script>
