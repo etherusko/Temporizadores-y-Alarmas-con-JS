@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporizadores&ALarmas</title>
+    <link href="./estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header>
+        <h1>Temporizadores&Alarmas @ether.labs</h1>
+    </header>
+    <main>
+        <section class="container" id="display">
+            <div class="block" id="0">
+                <div class="display-time">
+                    <p>En este párrafo contamos el tiempo</p>
+                </div>
+                <div class="display-buttons">
+                    <button class="display-btn" onclick="btnPlayOnClick()">Play</button>
+                    <button class="display-btn" onclick="btnReiniciarOnClick()">Reiniciar</button>
+                    <button class="display-btn" onclick="btnBorrarOnClick(document.getElementById('0'))">Borrar</button>
+                </div>
+            </div>            
+        </section>
+        <section class="container" id="constructor">
+            <div class="block">
+                <div class="constructor-button">
+                    <button class="ui-btn" onclick="btnCrearNuevoOnClick()">+ Crear-nuevo</button>
+                </div>
+                <div class="constructor-inputs">
+                    <input type="text" id="inputDays" placeholder="Dias">
+                    <input type="text" id="inputHours" placeholder="Horas">
+                    <input type="text" id="inputMinuts" placeholder="min">
+                    <input type="text" id="inputSeconds" placeholder="secs">
+                </div>
+            </div>   
+        </section>
+        <script type="text/javascript" src="./temporizador.js"></script>
+    </main>
+    <footer></footer>
+</body>
+</html>
