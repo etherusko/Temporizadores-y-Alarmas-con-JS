@@ -33,22 +33,27 @@ function leerInputs(){
     let minutos = document.getElementById("inputMinuts").value*60;
     let segundos = document.getElementById("inputSeconds").value*1;
     let seconds = dias+horas+minutos+segundos;
+    document.getElementById("inputDays").value = "";
+    document.getElementById("inputHours").value = "";
+    document.getElementById("inputMinuts").value = "";
+    document.getElementById("inputSeconds").value = "";
     return seconds*1000;
 }
 function crearContador(miliseconds,timeMark){
-    let displayElement=crearElementos();
+    let m = calcularMensaje(timeMark-new Date()+miliseconds);
+    let displayElement=crearElementos(m);
     setInterval(function(){
         let tiempoRestante = timeMark-new Date()+miliseconds;
-        displayElement.innerText = calcularDisplay(tiempoRestante);
+        displayElement.innerText = calcularMensaje(tiempoRestante);
         console.log(tiempoRestante);
     },1000);
 }
-function crearElementos(){
+function crearElementos(m){
     let block = crearElemento('div',['class','block'],contenedor,"");
     block.setAttribute('id',blockId);
     let displayTime = crearElemento('div',['class','display-time'],block,"");
     let displayButtons = crearElemento('div',['class','display-buttons'],block,"");
-    let cuentaRegresiva = crearElemento('p',[],displayTime,"Problemas aca");
+    let cuentaRegresiva = crearElemento('p',[],displayTime,m);
     let btnPlay = crearElemento('button',['class', 'display-btn'],displayButtons,"Play");
     btnPlay.setAttribute('id','btnPlay'+blockId)
     btnPlay.setAttribute('onclick',`btnPlayOnClick(document.getElementById(${blockId}))`);
@@ -65,11 +70,16 @@ function crearElemento(etiqueta,[atributo,valor],padre,texto){
     padre.appendChild(element);
     return element;
 }
-function calcularDisplay(tiempo){
-	let dias = Math.floor(Math.abs(tiempo/1000/3600/24));
-	let horas = Math.floor(Math.abs(tiempo/1000/3600) % 24);
-	let minutos = Math.floor(Math.abs(tiempo/1000/60) % 60);
-	let segundos = Math.floor(Math.abs(tiempo/1000) % 60);
-    let signo = tiempo >= 0 ? "" : "-"
-	return signo+dias+" Días	"+signo+horas+" h : "+signo+minutos+" min : "+signo+segundos+" sec";
+function calcularMensaje(tiempo){
+    let signo = tiempo > -1 ? "" : "-";
+	let dias = calcularDisplay(tiempo/1000/3600/24,signo);
+	let horas = calcularDisplay((tiempo/1000/3600)%24,signo);
+	let minutos = calcularDisplay((tiempo/1000/60)%60,signo);
+    let segundos = calcularDisplay(tiempo/1000%60,signo);
+	return dias+" Días	"+horas+" h : "+minutos+" min : "+segundos+" sec"; 
+}
+function calcularDisplay(t,signo){
+    let tiempo = ('0'+Math.round(Math.abs(t))).slice(-2);
+    let m = tiempo>=1 ? signo+tiempo : tiempo;
+    return m;
 }

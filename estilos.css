@@ -1,17 +1,29 @@
-body{
-    background: rgb(73 41 151 / 80%);
-}
 
+
+/* Color Theme Swatches in HSLA */
+
+
+:root{  
+    --color-primario:           #AB2B00;  
+    --color-secundario:         #F2B705;
+    --color-terciario:          #0487D9;
+    --color-dark1:              #182129;
+    --color-dark2:              #1a3338; 
+}
+body{
+    background: var(--color-dark1);
+}
+h1{color: var(--color-terciario);}
+h1:hover{color: var(--color-secundario)}
 .container{
-    align-items: center;
     margin: 12px 6px;
-    background-color: rgb(176 215 110 / 72%);
+    background-color: var(--color-secundario);
     max-width: 1000px;
 }
 #constructor{
     display: flex;
-    height: 140px;
-    background-color: #090c076b;
+    height: 120px;
+    background-color:var(--color-primario);
 }
 .block{
     display: flex;
@@ -20,14 +32,17 @@ body{
     align-items: center;
 }
 .display-time{
-   width: 44%;
-   text-align: center;
+    width: 44%;
+    text-align: center;
+    color:var(--color-dark2);
+    font-size: 28px;
+    font-family: 'Teko', sans-serif;
 }
 .display-buttons{
     display: flex;
     justify-content: space-evenly;
     width: 56%;
-    max-width: 380px;
+    max-width: 390px;
 }
 .constructor-button{
     width: 44%; 
@@ -38,27 +53,28 @@ body{
     display: flex;
     justify-content: space-evenly;
     width: 56%;
-    max-width: 380px;
+    max-width: 390px;
 }
-.display-btn{
+button{
     width: 80px;
-    color: #260440;
-    background-color: #8475e1;
-    border: 3px solid #42397478;
+    color: var(--color-secundario);
+    background-color: var(--color-terciario);
+    border: 1px solid var(--color-dark1);
     height: 29px;
     font-size: 16px;
 }
+button:hover{
+    color: white;
+    background-color: var(--color-terciario);
+    border: 1px solid white;
+    }
 .ui-btn{
     padding: 4px;
     height: 56px;
     width: 46%;
     min-width: 100px;
-    color: #260440;
-    background-color: #8475e1;
-    border: 3px solid #42397478;
-    font-size: 16px;
 }
 input{
     max-width: 50px;
-    background-color: #edb4efeb;
+    background-color: var(--color-secundario);
 }
