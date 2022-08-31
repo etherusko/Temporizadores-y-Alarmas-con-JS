@@ -1,5 +1,7 @@
 const contenedor = document.getElementById("display");
+const fuenteAudio = 'https://www.elongsound.com/images/mp3/pompa_pajaritos_1.mp3';
 let blockId = 0;
+
 function btnPlayOnClick(e){
     let thisButton = e.children[1].children[0];
     thisButton.innerText = thisButton.innerText == "Play" ? "Pause" : "Play";
@@ -41,11 +43,16 @@ function leerInputs(){
 }
 function crearContador(miliseconds,timeMark){
     let m = calcularMensaje(timeMark-new Date()+miliseconds);
-    let displayElement=crearElementos(m);
+    let elementsBlock=crearElementos(m);
+    let audio = elementsBlock[1].children[3];
     setInterval(function(){
         let tiempoRestante = timeMark-new Date()+miliseconds;
-        displayElement.innerText = calcularMensaje(tiempoRestante);
+        elementsBlock[0].children[0].innerText = calcularMensaje(tiempoRestante);
         console.log(tiempoRestante);
+        if(! audio.play() && tiempoRestante < 0){
+            audio.play();
+            isPlay = true;
+        }
     },1000);
 }
 function crearElementos(m){
@@ -61,7 +68,9 @@ function crearElementos(m){
     btnReiniciar.setAttribute('onclick','btnReiniciarOnClick()');
     let btnBorrar = crearElemento('button',['class', 'display-btn'],displayButtons,"Borrar");
     btnBorrar.setAttribute('onclick',`btnBorrarOnClick(document.getElementById(${blockId}))`);
-    return cuentaRegresiva;
+    let audio =crearElemento('audio',['src',fuenteAudio],displayButtons,"");
+    audio.setAttribute('loop','true');
+    return block.children;
 }
 function crearElemento(etiqueta,[atributo,valor],padre,texto){
     let element = document.createElement(etiqueta);
