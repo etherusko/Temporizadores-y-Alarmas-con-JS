@@ -1,23 +1,29 @@
 const contenedor = document.getElementById("display");
-const fuenteAudio = 'https://www.elongsound.com/images/mp3/pompa_pajaritos_1.mp3';
+const fuenteAudio = 'https://sonidosmp3.net/wp-content/uploads/2020/10/jungle.mp3';
 let blockId = 0;
+let inetervals = []; 
 
+/**
+ * Botón Play/Pause ******************************************
+ */
 function btnPlayOnClick(e){
     let thisButton = e.children[1].children[0];
     thisButton.innerText = thisButton.innerText == "Play" ? "Pause" : "Play";
     console.log("Se ha pulsado el botón Play");
 }
+/**
+ * Botón Reiniciar *******************************************
+ */
 function btnReiniciarOnClick(){
     console.log("Se ha pulsado el botón Reiniciar");
 }
-
 /**
  * Botón Borrar
  */
 function btnBorrarOnClick(e){
     contenedor.removeChild(e);
-    clearInterval(e.id);    
-    console.log("Se ha pulsado el botón Borrar");
+    clearInterval(inetervals[+e.id-1]);    
+    console.log("Se ha pulsado el botón Borrar",e,e.id);
 }
 /**
  * Botón Crear Nuevo
@@ -44,16 +50,16 @@ function leerInputs(){
 function crearContador(miliseconds,timeMark){
     let m = calcularMensaje(timeMark-new Date()+miliseconds);
     let elementsBlock=crearElementos(m);
-    let audio = elementsBlock[1].children[3];
-    setInterval(function(){
+    let ineterval = setInterval(function(){
         let tiempoRestante = timeMark-new Date()+miliseconds;
         elementsBlock[0].children[0].innerText = calcularMensaje(tiempoRestante);
+        let audio = elementsBlock[1].children[3];
         console.log(tiempoRestante);
-        if(! audio.play() && tiempoRestante < 0){
+        if(tiempoRestante < 0){
             audio.play();
-            isPlay = true;
         }
     },1000);
+    inetervals.push(ineterval);
 }
 function crearElementos(m){
     let block = crearElemento('div',['class','block'],contenedor,"");
@@ -84,11 +90,11 @@ function calcularMensaje(tiempo){
 	let dias = calcularDisplay(tiempo/1000/3600/24,signo);
 	let horas = calcularDisplay((tiempo/1000/3600)%24,signo);
 	let minutos = calcularDisplay((tiempo/1000/60)%60,signo);
-    let segundos = calcularDisplay(tiempo/1000%60,signo);
+    let segundos = calcularDisplay((tiempo/1000%60),signo);
 	return dias+" Días	"+horas+" h : "+minutos+" min : "+segundos+" sec"; 
 }
-function calcularDisplay(t,signo){
-    let tiempo = ('0'+Math.round(Math.abs(t))).slice(-2);
+function calcularDisplay(t,signo,sec){
+    let tiempo = ('0'+ Math.floor(Math.abs(t))).slice(-2);
     let m = tiempo>=1 ? signo+tiempo : tiempo;
     return m;
 }
