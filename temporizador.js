@@ -59,10 +59,11 @@ function btnBorrarOnClick(e){
  * blockId cuantifica e identifica los temporizadores construidos.
  */ 
 function btnCrearNuevoOnClick(){
-    let tiempo = leerInputs(inputs);
     blockId+=1;
-    crearContador(tiempo);
-    console.log("Se ha pulsado el botón Crear Nuevo");
+    let tiempo = leerInputs(inputs);    //Tiempo del temporizador en segundos
+    let timeMark = new Date();          //Marca temporal exacta del momento en que se pulsó el botón
+    crearContador(tiempo,timeMark);
+    console.log("Se ha pulsado el botón Crear Nuevo",timeMark);
 }
 function leerInputs(inputs){
     /**COMENT
@@ -82,29 +83,40 @@ function leerInputs(inputs){
     });
     return tiempo;
 }
-function crearContador(segundos){
+function crearContador(segundos,timeMark){
     let tiempo = segundos;
+    let marca = new Date();
+    let cuenta = tiempo+(timeMark-marca)/1000;
     let elementsBlock=crearElementos(tiempo);
-    let audio = elementsBlock.children[1].children[3];
+    const audio = elementsBlock.children[1].children[3];
+    const display = elementsBlock.children[0].children[0];
     let ineterval = setInterval(function(){
-        //Cuenta regresiva de segundos
-        if(inetervals[+elementsBlock.id-1][1]){
-        segundos-=1;}
-        //Reinicio a la suma oríginal del conteo de segundos (Botón reiniciar)
+        //Reiniciar
         if(inetervals[+elementsBlock.id-1][2]){
-            segundos=inetervals[+elementsBlock.id-1][3];
+            timeMark=new Date();
+            tiempo=inetervals[+elementsBlock.id-1][3];
             inetervals[+elementsBlock.id-1][2] = false;
+            display.innerText = calcularMensaje(Math.round(cuenta));
         }
-        console.log(segundos); // Depuracion
-        //Activación de alarma al llegar a 0 la cuenta regresiva
-        if(segundos <= 0){
+        //PLAY
+        if(inetervals[+elementsBlock.id-1][1]){
+            marca = new Date();
+            cuenta = tiempo+(timeMark-marca)/1000;
+        }//PAUSE
+        else{
+            timeMark = new Date();
+            tiempo = cuenta;
+        }
+        console.log(cuenta);
+        //Alarma
+        if(cuenta <= 0){
             audio.play();
         }
-        // Display en frontend de la cuenta regresiva
-        elementsBlock.children[0].children[0].innerText = calcularMensaje(segundos);
+        // Display
+       display.innerText = calcularMensaje(Math.round(cuenta));
     },1000);
     /**
-     * Parametrizacipn inicial de los intervalos generados
+     * Parametrizaciòn inicial de los intervalos generados
      * Cada temporisador tiene asociado su propia función intervalo
      * Así mismo quedan ordenados en una matriz, para poder hubicarlos y operarlos o cesarlos
      */
