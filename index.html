@@ -9,28 +9,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Teko&family=Zilla+Slab+Highlight&display=swap" rel="stylesheet">
+    <script type="module" src="./scripts/index.js"></script>   
 </head>
 <body>
     <header>
         <h1>Temporizadores&Alarmas @ether.labs</h1>
     </header>
     <main>
+
         <section class="container" id="display">
             <div class="block" id="0">
                 <div class="display-time">
                     <p>En este párrafo calculamos el tiempo</p>
                 </div>
                 <div class="display-buttons">
-                    <button class="display-btn" onclick="btnPlayOnClick()">Play</button>
-                    <button class="display-btn" onclick="btnReiniciarOnClick()">Reiniciar</button>
-                    <button class="display-btn" onclick="btnBorrarOnClick(document.getElementById('0'))">Borrar</button>
+                    <button class="display-btn btn-play">Play</button>
+                    <button class="display-btn btn-reboot">Reiniciar</button>
+                    <button class="display-btn btn-delete">Borrar</button>
                 </div>
             </div>            
         </section>
+
         <section class="container" id="constructor">
             <div class="block">
                 <div class="constructor-button">
-                    <button class="ui-btn" onclick="btnCrearNuevoOnClick()">+ Crear-nuevo</button>
+                    <button class="ui-btn">+ Crear-nuevo</button>
                 </div>
                 <div class="constructor-inputs">
                     <input type="text" id="inputDays" placeholder="Dias" factor="86400">
@@ -40,7 +43,22 @@
                 </div>
             </div>   
         </section>
-        <script type="text/javascript" src="./temporizador.js"></script>
+
+    <!-- TEMPLATE: -->
+        <template id="block-template">
+            <div class="block">
+                <div class="display-time">
+                    <p>En este párrafo calculamos el tiempo</p>
+                </div>
+                <div class="display-buttons">
+                    <button class="display-btn button_play" data-btn="play">Play</button>
+                    <button class="display-btn button_reiniciar" data-btn="reboot">Reiniciar</button>
+                    <button class="display-btn button_borrar" data-btn="delete">Borrar</button>
+                </div>
+            </div>
+        </template>
+        <script type="text/javascript" src="./scripts/.js"></script>
+        <!-- <script type="text/javascript" src="./scripts/temporizador.js"></script> -->
     </main>
     <footer></footer>
 </body>
