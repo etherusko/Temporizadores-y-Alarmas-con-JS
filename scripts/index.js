@@ -1,5 +1,6 @@
 import { Reloj } from './reloj.js'
 
+
 //Guardar elementos del DOM en objeto:
 const domObjectConnection = {
     template : document.getElementById("block-template"),
@@ -11,9 +12,7 @@ Reloj.pushUi(domObjectConnection)
 
 //Time count loop:
 setInterval(() => {
-    for(const reloj of Reloj.relojMap.values()){
-        reloj.countTime()
-    }
+    Reloj.interfaceLoop()
 },100)
 
 

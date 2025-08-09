@@ -1,9 +1,11 @@
 export class Reloj {
 
 /* Estatic Scope: */
+    static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
+    static playingAlarm = false
     static relojMap = new Map()
     static uiObject = {
-        //Hay que sobreescribir este objeto con los elementos de DOM desde inde.js
+        //Hay que sobreescribir este objeto con los elementos de DOM desde index.js
         template : "HTML <template> para clonar bloques",
         container : "Contenedor de ui para los bloques",
         constructor : "eventListener a cargo de crear nuevos bloques",
@@ -15,6 +17,13 @@ export class Reloj {
         obj.constructor.addEventListener('click', () => {
             new Reloj(obj.template, this.#calcTimeFromInputs(obj.inputs))
         })
+        obj.constructor.addEventListener("click", () => {
+            this.alarma.play().then(() => {
+                this.alarma.loop = true
+                this.alarma.pause();
+                this.alarma.currentTime = 0; // vuelve al inicio
+            });
+        }, { once: true }) // Solo la primera vez
     }
     static #addGlobalListener() {
         this.uiObject.container.addEventListener('click', e => {
@@ -34,6 +43,13 @@ export class Reloj {
             total += valor * factor * 1000 
         })
         return total
+    }
+    static interfaceLoop(){
+        this.playingAlarm = false
+        for(const reloj of this.relojMap.values()){
+            reloj.countTime()
+        }
+        this.playingAlarm ? this.alarma.play() : this.alarma.pause()
     }
 //..............................................   
     
@@ -108,6 +124,9 @@ export class Reloj {
     //.......Ciclo de tiempo:    
     countTime(){
         if(this.isRunning){
+            if (this.time <= 0){
+                Reloj.playingAlarm = true
+            }
             this.delta_time = Date.now() - this.actual_time_mark
         }
     }
@@ -115,10 +134,7 @@ export class Reloj {
     displayTime(){
         this.block.querySelector(".button_play").innerText = this.isRunning ? "Pause" : "Play"
         const display = this.block.querySelector(".display-time p")
-        
-        
         display.innerText = this.formatTime(this.calcTime())
-            //display.innerText = 
         }
     calcTime(){
         const total_count = this.saved_time + this.delta_time
@@ -127,17 +143,16 @@ export class Reloj {
         return global_time      //calculado en milisegundos
     }
     formatTime(time){
-        const toal_sec = time/1000
-        const days =  (toal_sec/86400) //Math.floor(seconds/86400) //Math.trunc = parte_entera
-        const hours =  (days - Math.trunc(days))/3600*86400
-        const minuts = (hours - Math.trunc(hours))/60*3600
-        const seconds = (minuts - Math.trunc(minuts))*60
-        return `|| D: ${Math.trunc(days)} || H: ${Math.trunc(hours)} || m: ${Math.trunc(minuts)} || s: ${seconds.toFixed(2)} ||`
+        const total_sec = time/1000
+        const days =    Math.trunc(total_sec/86400)
+        const hours =   Math.trunc((total_sec / 3600) % 24)      
+        const minuts =  Math.trunc((total_sec / 60) % 60)     
+        const seconds = total_sec % 60        
+        return `|| D: ${days} || H: ${(hours)} || m: ${(minuts)} || s: ${seconds.toFixed(2)} ||`
         //1D = 86400 s
         //1H = 3600 s
         //1m = 60 s
         //1s = 1000 ms
-        //return time/1000
     }
 //=====================================================================//
 
@@ -160,9 +175,9 @@ export class Reloj {
  * ✔ 2.3: Borrar <==> eliminar reloj del DOM
  * ✔ 2.4: Agregar Listener <==> delegación de eventos para los botones
  * ✔ 3: Lleva cuenta del tiempo trancurrido.
- * 4: Calcula el formato de tiempo transcurrido <==> Días, horas, minutos y segundos
- * 5: Manda una respuesta al DOM con el formato calculado para display <==> Tiempo transcurrido; pausa/play
- * 6: Activar alarma si tiempo <= 0
+ * ✔ 4: Calcula el formato de tiempo transcurrido <==> Días, horas, minutos y segundos
+ * ✔ 5: Manda una respuesta al DOM con el formato calculado para display <==> Tiempo transcurrido; pausa/play
+ * ✔ 6: Activar alarma si tiempo <= 0
  * 7: Agregar opcion para cronómetro o temporizador
  * 8: Guardar datos en localStorage
  *  */    
