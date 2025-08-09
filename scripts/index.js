@@ -1,19 +1,28 @@
 import { Reloj } from './reloj.js'
 
-//Elementos del DOM:
-const constructor = document.querySelector(".constructor-button")
-const boton_constructor = constructor.querySelector(".ui-btn")
-const timersContainer = document.querySelector("#display")
-const template = document.getElementById("block-template")
+//Guardar elementos del DOM en objeto:
+const domObjectConnection = {
+    template : document.getElementById("block-template"),
+    container : document.querySelector("#display"),
+    constructor : document.querySelector(".constructor-button .ui-btn"),
+    inputs : document.querySelectorAll('.constructor-inputs input')
+}
+Reloj.pushUi(domObjectConnection)
 
-boton_constructor.addEventListener('click', () => instanciarReloj() )
-Reloj.addGlobalListener(timersContainer)
-//Template:
+//Time count loop:
+setInterval(() => {
+    for(const reloj of Reloj.relojMap.values()){
+        reloj.countTime()
+    }
+},100)
 
 
-function instanciarReloj(){
-    const reloj = new Reloj(template)
-   // console.log(Reloj.relojMap[reloj.block])
-    
+//Render Loop:
+function renderLoop() {
+    for(const timer of Reloj.relojMap.values()){
+        timer.displayTime()
+    }
+    requestAnimationFrame(renderLoop)
 }
 
+requestAnimationFrame(renderLoop);

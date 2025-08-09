@@ -33,16 +33,21 @@ h1:hover{color: var(--color-secundario)}
     border: 2px solid var(--color-dark1);
 }
 .display-time{
-    width: 44%;
-    text-align: center;
     color:var(--color-dark2);
-    font-size: 28px;
-    font-family: 'Teko', sans-serif;
+    width: 60%;
+    text-align: center;
+    font-size: 2.2vw;
+    font-family: "Reddit Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    /*font-size: 28px;
+    font-family: 'Teko', sans-serif;*/
 }
 .display-buttons{
     display: flex;
     justify-content: space-evenly;
-    width: 56%;
+    width: 40%;
     max-width: 390px;
 }
 .constructor-button{

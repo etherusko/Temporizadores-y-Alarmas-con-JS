@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temporizadores&ALarmas</title>
     <link href="./estilos.css" rel="stylesheet" type="text/css">
+    <!--    Font  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Teko&family=Zilla+Slab+Highlight&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+    <!--    Font  -->
     <script type="module" src="./scripts/index.js"></script>   
 </head>
 <body>
@@ -16,7 +18,7 @@
         <h1>Temporizadores&Alarmas @ether.labs</h1>
     </header>
     <main>
-
+    <!-- Display Container -->
         <section class="container" id="display">
             <div class="block" id="0">
                 <div class="display-time">
@@ -30,16 +32,17 @@
             </div>            
         </section>
 
+    <!-- Constructor -->    
         <section class="container" id="constructor">
             <div class="block">
                 <div class="constructor-button">
                     <button class="ui-btn">+ Crear-nuevo</button>
-                </div>
+                </div>  
                 <div class="constructor-inputs">
-                    <input type="text" id="inputDays" placeholder="Dias" factor="86400">
-                    <input type="text" id="inputHours" placeholder="Horas" factor="3600">
-                    <input type="text" id="inputMinuts" placeholder="min" factor="60">
-                    <input type="text" id="inputSeconds" placeholder="secs" factor="1">
+                    <input type="text" id="inputDays" placeholder="Dias" data-factor="86400">
+                    <input type="text" id="inputHours" placeholder="Horas" data-factor="3600">
+                    <input type="text" id="inputMinuts" placeholder="min" data-factor="60">
+                    <input type="text" id="inputSeconds" placeholder="secs" data-factor="1">
                 </div>
             </div>   
         </section>
