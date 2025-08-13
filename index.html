@@ -18,7 +18,8 @@
         <h1>Temporizadores&Alarmas @ether.labs</h1>
     </header>
     <main>
-    <!-- Display Container -->
+
+            <!-- Display Container -->
         <section class="container" id="display">
             <div class="block" id="0">
                 <div class="display-time">
@@ -32,7 +33,7 @@
             </div>            
         </section>
 
-    <!-- Constructor -->    
+            <!-- Constructor -->    
         <section class="container" id="constructor">
             <div class="block">
                 <div class="constructor-button">
@@ -47,23 +48,25 @@
             </div>   
         </section>
 
-        <audio src="src/generic-alarm-clock-86759.mp3" controls></audio>
-    <!-- TEMPLATE: -->
-        <template id="block-template">
-            <div class="block">
-                <div class="display-time">
-                    <p>En este párrafo calculamos el tiempo</p>
-                </div>
-                <div class="display-buttons">
-                    <button class="display-btn button_play" data-btn="play">Play</button>
-                    <button class="display-btn button_reiniciar" data-btn="reboot">Reiniciar</button>
-                    <button class="display-btn button_borrar" data-btn="delete">Borrar</button>
-                </div>
-            </div>
-        </template>
-        <script type="text/javascript" src="./scripts/.js"></script>
-        <!-- <script type="text/javascript" src="./scripts/temporizador.js"></script> -->
     </main>
+    
     <footer></footer>
+    
+    <!-- TEMPLATE: -->
+    <template id="block-template">
+        <div class="block">
+            <div class="display-time">
+                <p>En este párrafo calculamos el tiempo</p>
+            </div>
+            <div class="display-buttons">
+                <button class="display-btn button_play" data-btn="play">Play</button>
+                <button class="display-btn button_reiniciar" data-btn="reboot">Reiniciar</button>
+                <button class="display-btn button_borrar" data-btn="delete">Borrar</button>
+            </div>
+        </div>
+    </template>
+    
+    <script type="text/javascript" src="./scripts/.js"></script>
+    <!-- <script type="text/javascript" src="./scripts/temporizador.js"></script> -->
 </body>
 </html>
