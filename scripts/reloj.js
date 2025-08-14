@@ -29,9 +29,10 @@ export class Reloj {
         this.uiObject.container.addEventListener('click', e => {
             const btn_action = e.target.dataset.btn
             if (btn_action){
+                /*debug: */ console.log("se pulsó boton", btn_action)
                 const block = e.target.closest(".block")
                 const object = this.relojMap.get(block)
-                object.btnIdentifier(btn_action)   
+                object.btnIdentifier(btn_action)
             }
         })
     }
