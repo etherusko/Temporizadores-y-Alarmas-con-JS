@@ -21,6 +21,7 @@ function renderLoop() {
     for(const timer of Reloj.relojMap.values()){
         timer.displayTime()
     }
+    Reloj.resizeDetection = false
     requestAnimationFrame(renderLoop)
 }
 

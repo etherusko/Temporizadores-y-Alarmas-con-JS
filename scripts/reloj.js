@@ -1,9 +1,10 @@
 export class Reloj {
 
-/* Estatic Scope: */
+//================== Estatic Scope: ==================//
     static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
-    static playingAlarm = false
+    static playingAlarm = false 
     static relojMap = new Map()
+    static resizeDetection = false ////////////Mejora Esto
     static uiObject = {
         //Hay que sobreescribir este objeto con los elementos de DOM desde index.js
         template : "HTML <template> para clonar bloques",
@@ -27,14 +28,15 @@ export class Reloj {
     }
     static #addGlobalListener() {
         this.uiObject.container.addEventListener('click', e => {
-            const btn_action = e.target.dataset.btn
-            if (btn_action){
-                /*debug: */ console.log("se pulsó boton", btn_action)
-                const block = e.target.closest(".block")
+            const isButton = e.target.closest("button")
+            if (isButton){
+                const block = isButton.closest(".block")
                 const object = this.relojMap.get(block)
-                object.btnIdentifier(btn_action)
+                object.btnIdentifier(isButton.dataset.btn)
             }
         })
+        window.addEventListener('load', () => this.resizeDetection = true);
+        window.addEventListener('resize', () => this.resizeDetection = true);
     }
     static #calcTimeFromInputs(inputs){
         let total = 0.0
@@ -52,8 +54,6 @@ export class Reloj {
         }
         this.playingAlarm ? this.alarma.play() : this.alarma.pause()
     }
-//..............................................   
-    
 
 
 //================== Constructor: ==================//
@@ -81,13 +81,12 @@ export class Reloj {
         //Guardar bloque en this.block
         return block;
     }
-//==================================================//
 
-//----------------------------------------------------------------------------------------------------------//
-    
+
 //==============Comportamiento & Eventos:==================//
 
-    btnIdentifier(data_btn = ""){ //////////////////////Temporal*************** 
+    //...............Escucha de botones & selección de método
+    btnIdentifier(data_btn = ""){
         const dispatchAction = new Map([
             ["play", () => this.switchState()],
             ["reboot", () => this.resetTime()],
@@ -104,6 +103,7 @@ export class Reloj {
             this.saved_time += this.delta_time
             this.delta_time = 0
         }
+        Reloj.resizeDetection = true
     }
     //...............Reiniciar:  
     resetTime(){
@@ -111,13 +111,13 @@ export class Reloj {
         this.delta_time = 0
         this.actual_time_mark = Date.now()
         this.isRunning = false
+        Reloj.resizeDetection = true
     }
     //...............Borrar:
     delete(){
         Reloj.relojMap.delete(this.block)   //Elimina el objeto
         this.block.remove()                 //Elimina el nodo del DOM
     }
-//=======================================================//
     
 
 //==================== Ciclos lógica & render ==========================//
@@ -133,10 +133,11 @@ export class Reloj {
     }
     //.......Ciclo de renderizado:
     displayTime(){
-        this.block.querySelector(".button_play").innerText = this.isRunning ? "Pause" : "Play"
+        this.block.querySelector(".button_play .btn-span-name").innerText = this.isRunning ? "Pause" : "Play"
         const display = this.block.querySelector(".display-time p")
         display.innerText = this.formatTime(this.calcTime())
-        }
+        if (Reloj.resizeDetection) this.adjustLayout()
+    }
     calcTime(){
         const total_count = this.saved_time + this.delta_time
         //const global_time = this.time + total_count     //cronómetro
@@ -154,6 +155,12 @@ export class Reloj {
         //1H = 3600 s
         //1m = 60 s
         //1s = 1000 ms
+    }
+    adjustLayout(){
+        this.block.classList.remove('column-dir')
+        const isEnough = (this.block.clientWidth >= this.block.scrollWidth)
+        console.log(isEnough)
+        if(!isEnough) this.block.classList.add('column-dir')
     }
 //=====================================================================//
 

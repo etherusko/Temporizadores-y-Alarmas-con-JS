@@ -21,16 +21,18 @@
 
             <!-- Display Container -->
         <section class="container" id="display">
-            <div class="block" id="0">
-                <div class="display-time">
-                    <p>En este párrafo calculamos el tiempo</p>
-                </div>
-                <div class="display-buttons">
-                    <button class="display-btn btn-play">Play</button>
-                    <button class="display-btn btn-reboot">Reiniciar</button>
-                    <button class="display-btn btn-delete">Borrar</button>
-                </div>
-            </div>            
+            <!-- Block: clone of template example:
+                <div class="block">
+                    <div class="display-time">
+                        <p>En este párrafo calculamos el tiempo</p>
+                    </div>
+                    <div class="display-buttons">
+                        <button class="display-btn btn-play">Play</button>
+                        <button class="display-btn btn-reboot">Reiniciar</button>
+                        <button class="display-btn btn-delete">Borrar</button>
+                    </div>
+                </div>            
+            -->
         </section>
 
             <!-- Constructor -->    
@@ -54,14 +56,27 @@
     
     <!-- TEMPLATE: -->
     <template id="block-template">
-        <div class="block">
+        <div class="block modern-block">
             <div class="display-time">
                 <p>En este párrafo calculamos el tiempo</p>
             </div>
             <div class="display-buttons">
-                <button class="display-btn button_play" data-btn="play">Play</button>
-                <button class="display-btn button_reiniciar" data-btn="reboot">Reiniciar</button>
-                <button class="display-btn button_borrar" data-btn="delete">Borrar</button>
+                
+                <button class="display-btn button_play" data-btn="play">
+                    <span class="btn-span-icon" hidden>⏯</span>
+                    <span class="btn-span-name">Play</span> 
+                </button>
+
+                <button class="display-btn button_reiniciar" data-btn="reboot">
+                    <span class="btn-span-icon" hidden>🔄</span>
+                    <span class="btn-span-name">Reiniciar</span> 
+                </button>
+
+                <button class="display-btn button_borrar" data-btn="delete">
+                    <span class="btn-span-icon" hidden>🗑</span>
+                    <span class="btn-span-name">Borrar</span> 
+                </button>
+
             </div>
         </div>
     </template>
