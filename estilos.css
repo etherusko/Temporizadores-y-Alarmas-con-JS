@@ -43,9 +43,8 @@ h1:hover{color: var(--color-secundario)}
     margin: 2px 0px; 
 
     width: 100%;
+    contain: content;
 }
-
-
 
 /* Fondo moderno */
 .modern-block {

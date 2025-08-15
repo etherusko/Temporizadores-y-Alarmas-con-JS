@@ -1,10 +1,11 @@
+import { EventHandler } from "./EventHandler.js";
+
 export class Reloj {
 
 //================== Estatic Scope: ==================//
     static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
     static playingAlarm = false 
     static relojMap = new Map()
-    static resizeDetection = false ////////////Mejora Esto
     static uiObject = {
         //Hay que sobreescribir este objeto con los elementos de DOM desde index.js
         template : "HTML <template> para clonar bloques",
@@ -35,8 +36,6 @@ export class Reloj {
                 object.btnIdentifier(isButton.dataset.btn)
             }
         })
-        window.addEventListener('load', () => this.resizeDetection = true);
-        window.addEventListener('resize', () => this.resizeDetection = true);
     }
     static #calcTimeFromInputs(inputs){
         let total = 0.0
@@ -64,8 +63,12 @@ export class Reloj {
         this.actual_time_mark = 0   //referencia actual
         this.delta_time = 0         //cuenta actual
         this.isRunning = false
-        this.block = this.clonTemplate(template)    //Contraparte del objeto en la interfaz
+        this.block = this.clonTemplate(template)    //Contraparte del objeto en la interfaz del DOM
         Reloj.relojMap.set(this.block, this)        //Vincular referencia UI con objeto
+        
+        EventHandler.observer.observe(this.block)
+        EventHandler.observer.observe(this.block.querySelector(".display-time"))
+        EventHandler.observer.observe(this.block.querySelector(".display-buttons"))
     }
     
     //...............Clonar template:
@@ -103,7 +106,6 @@ export class Reloj {
             this.saved_time += this.delta_time
             this.delta_time = 0
         }
-        Reloj.resizeDetection = true
     }
     //...............Reiniciar:  
     resetTime(){
@@ -111,7 +113,6 @@ export class Reloj {
         this.delta_time = 0
         this.actual_time_mark = Date.now()
         this.isRunning = false
-        Reloj.resizeDetection = true
     }
     //...............Borrar:
     delete(){
@@ -136,7 +137,6 @@ export class Reloj {
         this.block.querySelector(".button_play .btn-span-name").innerText = this.isRunning ? "Pause" : "Play"
         const display = this.block.querySelector(".display-time p")
         display.innerText = this.formatTime(this.calcTime())
-        if (Reloj.resizeDetection) this.adjustLayout()
     }
     calcTime(){
         const total_count = this.saved_time + this.delta_time
@@ -155,12 +155,6 @@ export class Reloj {
         //1H = 3600 s
         //1m = 60 s
         //1s = 1000 ms
-    }
-    adjustLayout(){
-        this.block.classList.remove('column-dir')
-        const isEnough = (this.block.clientWidth >= this.block.scrollWidth)
-        console.log(isEnough)
-        if(!isEnough) this.block.classList.add('column-dir')
     }
 //=====================================================================//
 

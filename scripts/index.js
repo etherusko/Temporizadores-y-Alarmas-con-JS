@@ -1,6 +1,5 @@
 import { Reloj } from './reloj.js'
 
-
 //Guardar elementos del DOM en objeto:
 const domObjectConnection = {
     template : document.getElementById("block-template"),
