@@ -1,3 +1,4 @@
+import { LoopControl } from './loopControl.js'
 import { Reloj } from './reloj.js'
 
 //Guardar elementos del DOM en objeto:
@@ -7,21 +8,7 @@ const domObjectConnection = {
     constructor : document.querySelector(".constructor-button .ui-btn"),
     inputs : document.querySelectorAll('.constructor-inputs input')
 }
-Reloj.pushUi(domObjectConnection)
+Reloj.init(domObjectConnection)
+document.addEventListener('click-on-constructor-button', () => new Reloj())
+//Reloj.startLoops()
 
-//Time count loop:
-setInterval(() => {
-    Reloj.interfaceLoop()
-},100)
-
-
-//Render Loop:
-function renderLoop() {
-    for(const timer of Reloj.relojMap.values()){
-        timer.displayTime()
-    }
-    Reloj.resizeDetection = false
-    requestAnimationFrame(renderLoop)
-}
-
-requestAnimationFrame(renderLoop);

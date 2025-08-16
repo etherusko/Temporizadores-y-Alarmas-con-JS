@@ -1,10 +1,11 @@
 import { EventHandler } from "./EventHandler.js";
+import { LoopControl } from "./loopControl.js";
 
 export class Reloj {
 
 //================== Estatic Scope: ==================//
     static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
-    static playingAlarm = false 
+    static playingAlarm = false
     static relojMap = new Map()
     static uiObject = {
         //Hay que sobreescribir este objeto con los elementos de DOM desde index.js
@@ -13,31 +14,15 @@ export class Reloj {
         constructor : "eventListener a cargo de crear nuevos bloques",
         inputs : "Inputs del DOM para captura el tiempo ingressado por el usuario"
     }
-    static pushUi(obj) {
+
+    static init(obj){
         this.uiObject = obj
-        this.#addGlobalListener()
-        obj.constructor.addEventListener('click', () => {
-            new Reloj(obj.template, this.#calcTimeFromInputs(obj.inputs))
-        })
-        obj.constructor.addEventListener("click", () => {
-            this.alarma.play().then(() => {
-                this.alarma.loop = true
-                this.alarma.pause();
-                this.alarma.currentTime = 0; // vuelve al inicio
-            });
-        }, { once: true }) // Solo la primera vez
+        EventHandler.uiConection(obj)
+        LoopControl.observWatches = this.relojMap
+        LoopControl.startLoops(this.timeCountLoop.bind(this))
     }
-    static #addGlobalListener() {
-        this.uiObject.container.addEventListener('click', e => {
-            const isButton = e.target.closest("button")
-            if (isButton){
-                const block = isButton.closest(".block")
-                const object = this.relojMap.get(block)
-                object.btnIdentifier(isButton.dataset.btn)
-            }
-        })
-    }
-    static #calcTimeFromInputs(inputs){
+
+    static calcTimeFromInputs(inputs){
         let total = 0.0
         inputs.forEach(input => {
             const valor = parseFloat(input.value) || 0; // Si está vacío o no es número, toma 0
@@ -46,7 +31,7 @@ export class Reloj {
         })
         return total
     }
-    static interfaceLoop(){
+    static timeCountLoop(){    
         this.playingAlarm = false
         for(const reloj of this.relojMap.values()){
             reloj.countTime()
@@ -57,24 +42,29 @@ export class Reloj {
 
 //================== Constructor: ==================//
 
-    constructor(template,time){
-        this.time = time || 0       //tiempo ingresado en milisegundos
+    constructor(){
+        this.time = Reloj.calcTimeFromInputs(Reloj.uiObject.inputs) || 0       //tiempo ingresado en milisegundos
         this.saved_time = 0         //tiempo acumulado
         this.actual_time_mark = 0   //referencia actual
         this.delta_time = 0         //cuenta actual
+        this.calculated_time = this.time
         this.isRunning = false
-        this.block = this.clonTemplate(template)    //Contraparte del objeto en la interfaz del DOM
+        this.block = this.clonTemplate()    //Contraparte del objeto en la interfaz del DOM
         Reloj.relojMap.set(this.block, this)        //Vincular referencia UI con objeto
         
+        //Eventos:
+        this.block.addEventListener('click-on-timer-button', e => {
+                    this.btnIdentifier(e.detail.activeButton.dataset.btn)
+                })
         EventHandler.observer.observe(this.block)
         EventHandler.observer.observe(this.block.querySelector(".display-time"))
         EventHandler.observer.observe(this.block.querySelector(".display-buttons"))
     }
     
     //...............Clonar template:
-    clonTemplate(template) { 
+    clonTemplate() { 
         //Clonar template:
-        const clone = template.content.cloneNode(true)
+        const clone = Reloj.uiObject.template.content.cloneNode(true)
         const block = clone.querySelector(".block")
         
         //Agregar bloque al DOM:
@@ -126,24 +116,28 @@ export class Reloj {
     //.......Ciclo de tiempo:    
     countTime(){
         if(this.isRunning){
-            if (this.time <= 0){
+            if (this.calculated_time <= 0){
+                console.log("menor que 0 detect")
                 Reloj.playingAlarm = true
             }
             this.delta_time = Date.now() - this.actual_time_mark
+            this.calcTime() //Asegurarse que puede ir denrto del if
         }
     }
+    calcTime(){
+        const total_count = this.saved_time + this.delta_time
+        this.calculated_time = this.time - total_count
+        //const global_time = this.time + total_count     //cronómetro
+        //const global_time = this.time - total_count    //temporizador
+    }
+
     //.......Ciclo de renderizado:
     displayTime(){
         this.block.querySelector(".button_play .btn-span-name").innerText = this.isRunning ? "Pause" : "Play"
         const display = this.block.querySelector(".display-time p")
-        display.innerText = this.formatTime(this.calcTime())
+        display.innerText = this.formatTime(this.calculated_time)
     }
-    calcTime(){
-        const total_count = this.saved_time + this.delta_time
-        //const global_time = this.time + total_count     //cronómetro
-        const global_time = this.time - total_count    //temporizador
-        return global_time      //calculado en milisegundos
-    }
+    //.......calculado de tiempo transcurrido en milisegundos
     formatTime(time){
         const total_sec = time/1000
         const days =    Math.trunc(total_sec/86400)
@@ -156,8 +150,6 @@ export class Reloj {
         //1m = 60 s
         //1s = 1000 ms
     }
-//=====================================================================//
-
 
 //========================== DEBUG =============================//
     

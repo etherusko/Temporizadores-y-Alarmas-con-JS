@@ -1,4 +1,11 @@
 export class EventHandler{
+
+    static uiConection(uiObject){
+        this.#addGlobalListener(uiObject.container)
+        this.#defineConstructorEvent(uiObject)
+    }
+
+    /**Evento: Cambio de dimensiones en <block><hijos></block> */
     static observer = new ResizeObserver((entries) => {
         for (let entry of entries) {
             const hijo = entry.target
@@ -19,5 +26,30 @@ export class EventHandler{
         
         //Agregar o quitar la clase en función de si hay scroll (needsColumLayout)
         padre.classList.toggle('column-dir',needsColumLayout)
+    }
+
+    /**Evento: Click sobre botones de los objeto temporizador de ui */
+    static #addGlobalListener(globalListener) {              //globalListener == Reloj_instance: this.uiObject.container
+        globalListener.addEventListener('click', e => {    
+            const button = e.target.closest("button")
+            if(button){
+                const block = button.closest(".block")
+                const event = new CustomEvent('click-on-timer-button',{
+                    detail: {
+                        activeButton: button,
+                        blockReference: block,
+                    }});
+                block.dispatchEvent(event)         
+            } 
+        })
+    }
+
+    /**Evento: Activación del constructor */
+    static #defineConstructorEvent(uiObject){
+        uiObject.constructor.addEventListener('click', () => {
+            const event = new CustomEvent('click-on-constructor-button',{detail:{}})
+            document.dispatchEvent(event) //listener en index.js
+            uiObject.inputs.forEach(input => input.value = null);
+        })
     }
 }
