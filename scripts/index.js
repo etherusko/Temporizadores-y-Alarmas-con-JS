@@ -1,4 +1,3 @@
-import { LoopControl } from './loopControl.js'
 import { Reloj } from './reloj.js'
 
 //Guardar elementos del DOM en objeto:

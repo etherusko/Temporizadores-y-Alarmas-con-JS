@@ -1,14 +1,19 @@
 export class LoopControl{
+ 
+    static eventManager  = new EventTarget()    
 
-    static observWatches = []
-    
-    static startLoops(interval = new Function()){
-        setInterval(interval,100)
-        requestAnimationFrame(this.updateTime.bind(this))
+    static startLoops(){
+        setInterval( () => {
+            this.eventManager.dispatchEvent(new CustomEvent('interval-loop-cicle',
+                {detail:{},
+                }
+            ))
+        },100)
+        requestAnimationFrame(this.updateFrame.bind(this))
     }
 
-    static updateTime(){
-        this.observWatches.values().forEach(e => e.displayTime())
-        requestAnimationFrame(this.updateTime.bind(this))
+    static updateFrame(){
+        this.eventManager.dispatchEvent(new CustomEvent('animation-loop-cicle',{detail:{},}))
+        requestAnimationFrame(this.updateFrame.bind(this))
     }
 }

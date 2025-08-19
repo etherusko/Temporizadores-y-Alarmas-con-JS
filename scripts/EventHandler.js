@@ -10,11 +10,11 @@ export class EventHandler{
         for (let entry of entries) {
             const hijo = entry.target
             const padre = hijo.closest(".block")
-            this.sizeChangeEvent(padre)
+            this.#sizeChangeEvent(padre)
         }
     })
 
-    static sizeChangeEvent(padre){
+    static #sizeChangeEvent(padre){
         //Verificar si la clase colum-dir está activa en padre (.block)
         const isOnColum = padre.classList.contains("column-dir")
         
@@ -48,6 +48,7 @@ export class EventHandler{
     static #defineConstructorEvent(uiObject){
         uiObject.constructor.addEventListener('click', () => {
             const event = new CustomEvent('click-on-constructor-button',{detail:{}})
+            console.log("Se creo un evento click constructo")
             document.dispatchEvent(event) //listener en index.js
             uiObject.inputs.forEach(input => input.value = null);
         })
