@@ -141,35 +141,13 @@ input{
     background-color: var(--color-secundario);
 }
 
-/* ======= Trancisiones : Diseño responsivo ===== */
+/*=================================================================*/
 
-/* ==== FASE 2: MEDIANAS (700px o menos) ==== 
-@media (max-width: 700px) {
-    .block {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .display-time {
-        flex: 1 1 100%;
-        text-align: center;
-    }
-    .display-buttons {
-        flex: 1 1 100%;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
-    button {
-        flex: 1;
-        max-width: 90px;
-        padding: 6px 8px;
-        font-size: 13px;
-    }
-    .container{
-        background-color: darkolivegreen;
-    }
-}*/
 
-/* ==== FASE 3: CELULAR (450px o menos) ==== */
+
+/*=================================================================*/
+
+/* ==== FASE 2: CELULAR (450px o menos) ==== */
 @media (max-width: 450px) {
     .display-buttons {
         gap: 6px;
