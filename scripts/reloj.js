@@ -4,6 +4,7 @@ import { LoopControl } from "./loopControl.js";
 export class Reloj {
 
 //================== Estatic Scope: ==================//
+    //Variables Estáticas:
     static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
     static relojMap = new Map()
     static uiObject = {
@@ -13,20 +14,22 @@ export class Reloj {
         constructor : "eventListener a cargo de crear nuevos bloques",
         inputs : "Inputs del DOM para captura el tiempo ingressado por el usuario"
     }
- //.....Iniciar desde index.js
+
+    //Funciones Estáticas:    
+ //.....Inicia en index.js | Se ejecuta 1 vez
     static init(obj){
         this.#pushUi(obj)
-        this.#initLoops()
+        this.#initLoopListeners()
+        this.#initGlobalListeners()
     }
 
-    static #pushUi(obj){
+    static #pushUi(obj){    
         this.uiObject = obj
         EventHandler.uiConection(obj)
+        LoopControl.startLoops()
     }
 
-    static #initLoops(){
-        LoopControl.startLoops()
-        
+    static #initLoopListeners(){
         //........................Ciclo SetInterval (Cuenta de tiempo)
         LoopControl.eventManager.addEventListener('interval-loop-cicle', e => {
             let alarmOn = false
@@ -36,11 +39,27 @@ export class Reloj {
 
         //........................Ciclo rAF (refresh ui)
         LoopControl.eventManager.addEventListener('animation-loop-cicle', e => {
-            //console.log("Hemos recibido la escucha del evento animation-loop-cicle")
-            this.relojMap.values().forEach(e => e.displayTime())
+            this.relojMap.values().forEach(timer => timer.displayTime())
         })
     }
- //.....Iniciando new Reloj()
+        //.... ==> Aqui se instancia new Reloj() dentro de un listener:
+    static #initGlobalListeners(){
+        //EventHandler.observer.observe(  )
+        document.addEventListener('click-on-constructor-button', () => {
+            const reloj = new Reloj()
+            EventHandler.observer.observe(reloj.block)
+            EventHandler.observer.observe(reloj.block.querySelector(".display-time"))
+            EventHandler.observer.observe(reloj.block.querySelector(".display-buttons"))
+            this.uiObject.inputs.forEach(input => input.value = null); //Se restean valores de los imputs
+        })
+        this.uiObject.container.addEventListener('click-on-timer-button', e => {  
+            const block = e.target    
+            const btnAction = e.detail.btnAction
+            this.relojMap.get(block).btnIdentifier(btnAction) 
+        })
+    }
+
+ //.....Inicia con cada new Reloj() | se ejecuta 1 vez por reloj
     static #clonTemplate(instancia = new Reloj()) { 
         //Clonar template:
         const block = this.uiObject.template.content.cloneNode(true).querySelector(".block")
@@ -50,18 +69,7 @@ export class Reloj {
         
         //Guardar bloque en this.block
         Reloj.relojMap.set(block, instancia)        //Vincular referencia UI con instancia
-        Reloj.#observeBlockEvents(block)
         return block;
-    }
-
-    static #observeBlockEvents(block){
-        //Eventos:
-        block.addEventListener('click-on-timer-button', e => {
-                    this.relojMap.get(block).btnIdentifier(e.detail.activeButton.dataset.btn)
-                })
-        EventHandler.observer.observe(block)
-        EventHandler.observer.observe(block.querySelector(".display-time"))
-        EventHandler.observer.observe(block.querySelector(".display-buttons"))
     }
 
     static #calcTimeFromInputs(){
@@ -77,7 +85,7 @@ export class Reloj {
 //================== Constructor: ==================//
 
     constructor(){
-        this.block = Reloj.#clonTemplate(this)    //Contraparte del objeto en la interfaz del DOM
+        this.block = Reloj.#clonTemplate(this) || undefined   //Contraparte del objeto en la interfaz del DOM
         this.time = Reloj.#calcTimeFromInputs() || 0       //tiempo ingresado en milisegundos
         this.saved_time = 0         //tiempo acumulado
         this.actual_time_mark = 0   //referencia actual
@@ -89,13 +97,13 @@ export class Reloj {
 //==============Comportamiento & Eventos:==================//
 
     //...............Escucha de botones & selección de método
-    btnIdentifier(data_btn = ""){
+    btnIdentifier(btn_action = ""){
         const dispatchAction = new Map([
             ["play", () => this.switchState()],
             ["reboot", () => this.resetTime()],
             ["delete", () => this.delete()]
         ])
-        dispatchAction.get(data_btn)()
+        dispatchAction.get(btn_action)()
     }    
     //...............Play&PAuse:
     switchState(){
@@ -113,6 +121,7 @@ export class Reloj {
         this.delta_time = 0
         this.actual_time_mark = Date.now()
         this.isRunning = false
+        this.calcTime()
     }
     //...............Borrar:
     delete(){
@@ -121,7 +130,7 @@ export class Reloj {
     }
     
 
-//==================== Ciclos lógica & render ==========================//
+//==================== Ciclos de lógica & render ==========================//
     
     //.......Ciclo de tiempo:    
     countTime(){
@@ -133,6 +142,7 @@ export class Reloj {
                 return true
             }
         }
+        return undefined
     }
     calcTime(){
         const total_count = this.saved_time + this.delta_time
@@ -143,7 +153,7 @@ export class Reloj {
 
     //.......Ciclo de renderizado:
     displayTime(){
-        this.block.querySelector(".button_play .btn-span-name").innerText = this.isRunning ? "Pause" : "Play"
+        this.block.querySelector(".button_play .btn-span-name").innerText = this.isRunning ? "Pause" : "Play" //¿Es necesario calcularlo aqui?
         const display = this.block.querySelector(".display-time p")
         display.innerText = this.formatTime(this.calculated_time)
     }
@@ -163,8 +173,8 @@ export class Reloj {
 
 //========================== DEBUG =============================//
     
-    static prueba(e){
-        console.log("Se hizo click en el boton", e)
+    static prueba(){
+        console.log("Esto es una prueba", this)
     }
 //===============================================================//
 

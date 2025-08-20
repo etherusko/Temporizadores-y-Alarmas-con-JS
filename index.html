@@ -35,6 +35,55 @@
             -->
         </section>
 
+            <!-- Nuevo Constructor -->
+        <!------------------------------------------------------>    
+        
+        <section class="container" id="constructor">
+            <div class="block modern-block" id="constructor-block">
+                <div class="constructor-header">
+                    <!-- Selector de Tipo: (con efecto píldora) -->
+                    <div class="type-selector">
+                        <input type="radio" id="typeTimer" name="timerType" value="timer" checked>
+                        <label for="typeTimer">Temporizador</label>
+    
+                        <input type="radio" id="typeStopwatch" name="timerType" value="stopwatch">
+                        <label for="typeStopwatch">Cronómetro</label>
+                        
+                        <!-- Este es el nuevo elemento que crea el efecto deslizante -->
+                        <div class="pill"></div>
+                    </div>
+                
+                    <!-- Input para el nombre -->
+                    <div class="input-group" id="input-for-name">
+                        <input type="text" id="inputName" placeholder="Nombre (ej. 'Cocinar pasta')">
+                    </div>
+                </div>
+
+                <!-- Inputs para configurar el tiempo del Temporizador -->
+                <div class="constructor-inputs" id="timerInputs">
+                    <div class="input-group">
+                        <input type="number" id="inputDays" placeholder="Días" data-factor="86400" min="0">
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="inputHours" placeholder="Horas" data-factor="3600" min="0">
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="inputMinuts" placeholder="Min" data-factor="60" min="0">
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="inputSeconds" placeholder="Seg" data-factor="1" min="0">
+                    </div>
+                </div>
+
+                <!-- Botón para crear el temporizador/cronómetro -->
+                <div class="constructor-button">
+                    <button class="ui-btn">+ Crear nuevo</button>
+                </div>
+
+            </div>
+        </section>         
+
+        <!------------------------------------------------------>    
             <!-- Constructor -->    
         <section class="container" id="constructor">
             <div class="block">

@@ -35,7 +35,7 @@ h1:hover{color: var(--color-secundario)}
     align-items: center;
     justify-content: space-between;
     /*flex-wrap: wrap;*/
-    gap: 10px;
+    gap: 12px;
     padding: 12px 16px;
     border-radius: 12px;
     box-sizing: border-box;
@@ -137,39 +137,156 @@ button:active{
     min-width: 100px;
 }
 input{
-    max-width: 50px;
+    /*max-width: 50px;*/
     background-color: var(--color-secundario);
 }
 
-/* ======= Trancisiones : Diseño responsivo ===== */
+/*=================================================================*/
 
-/* ==== FASE 2: MEDIANAS (700px o menos) ==== 
-@media (max-width: 700px) {
-    .block {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .display-time {
-        flex: 1 1 100%;
-        text-align: center;
-    }
-    .display-buttons {
-        flex: 1 1 100%;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
-    button {
-        flex: 1;
-        max-width: 90px;
-        padding: 6px 8px;
-        font-size: 13px;
-    }
-    .container{
-        background-color: darkolivegreen;
-    }
-}*/
+            /* --- NUEVO SELECTOR DE TIPO CON EFECTO PÍLDORA --- */
+        .constructor-header{
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+        .type-selector {
+            width: 80%;
+            position: relative;
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.25);
+            padding: 0.25rem;
+            border-radius: 50px;
+            height: 50px;
+        }
 
-/* ==== FASE 3: CELULAR (450px o menos) ==== */
+        .type-selector input[type="radio"] {
+            display: none; /* Ocultamos el radio button real */
+        }
+        
+        .type-selector label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            z-index: 2; /* Por encima de la píldora */
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+        }
+
+        /* La píldora deslizante */
+        .type-selector .pill {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            height: calc(100% - 8px);
+            background-color: var(--color-secundario);
+            border-radius: 50px;
+            z-index: 1; /* Por debajo de las etiquetas */
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Movimiento de la píldora */
+        .type-selector input#typeTimer:checked ~ .pill {
+            transform: translateX(0%);
+        }
+
+        .type-selector input#typeStopwatch:checked ~ .pill {
+            transform: translateX(100%);
+        }
+        
+        /* Cambia el color del texto de la opción seleccionada para que contraste */
+        .type-selector input#typeTimer:checked + label,
+        .type-selector input#typeStopwatch:checked + label {
+            color: var(--color-dark1);
+        }
+        
+        /* --- ESTILOS ADAPTADOS PARA INPUTS --- */
+
+        #input-for-name{
+            width: 85%;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 6px;
+        }
+        
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--color-secundario);
+            box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.4);
+        }
+        
+        .input-group input[type="number"] {
+            text-align: center;
+        }
+
+
+                /* --- Contenedor de los inputs de tiempo --- */
+        .constructor-inputs {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            max-height: 300px;
+            opacity: 1;
+            transition: opacity 0.5s ease, max-height 0.5s ease;
+        }
+        
+        .constructor-inputs.hidden {
+            opacity: 0;
+            max-height: 0;
+            pointer-events: none;
+        }
+
+        /* --- ESTILOS ADAPTADOS PARA EL BOTÓN --- */
+        .constructor-button {
+            text-align: center;
+        }
+
+        .ui-btn {
+            background-color: var(--color-secundario);
+            color: var(--color-dark1);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+        }
+
+        .ui-btn:hover {
+            background-color: #e0a800; /* Un tono más oscuro de amarillo */
+            transform: translateY(-2px);
+        }
+
+        .ui-btn:active {
+            transform: translateY(0);
+        }
+        #constructor{
+          background: var(--color-dark2);
+        }
+
+/*=================================================================*/
+
+/* ==== FASE 2: CELULAR (450px o menos) ==== */
 @media (max-width: 450px) {
     .display-buttons {
         gap: 6px;

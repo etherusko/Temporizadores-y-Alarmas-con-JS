@@ -5,13 +5,9 @@ export class EventHandler{
         this.#defineConstructorEvent(uiObject)
     }
 
-    /**Evento: Cambio de dimensiones en <block><hijos></block> */
+    /**Evento: Detectar cambio de  dimenciones en el DOM */
     static observer = new ResizeObserver((entries) => {
-        for (let entry of entries) {
-            const hijo = entry.target
-            const padre = hijo.closest(".block")
-            this.#sizeChangeEvent(padre)
-        }
+        entries.forEach(entry => this.#sizeChangeEvent(entry.target.closest(".block")))
     })
 
     static #sizeChangeEvent(padre){
@@ -34,23 +30,20 @@ export class EventHandler{
             const button = e.target.closest("button")
             if(button){
                 const block = button.closest(".block")
-                const event = new CustomEvent('click-on-timer-button',{
+                block.dispatchEvent(new CustomEvent('click-on-timer-button',{
+                    bubbles: true,
                     detail: {
                         activeButton: button,
-                        blockReference: block,
-                    }});
-                block.dispatchEvent(event)         
+                        btnAction : button.dataset.btn
+                    }
+                }))         
             } 
         })
     }
 
     /**Evento: Activación del constructor */
     static #defineConstructorEvent(uiObject){
-        uiObject.constructor.addEventListener('click', () => {
-            const event = new CustomEvent('click-on-constructor-button',{detail:{}})
-            console.log("Se creo un evento click constructo")
-            document.dispatchEvent(event) //listener en index.js
-            uiObject.inputs.forEach(input => input.value = null);
-        })
+        console.log("Se ejecuta 1 vez: cuando deifnimos el Listener")
+        uiObject.constructor.addEventListener('click', () => document.dispatchEvent(new CustomEvent('click-on-constructor-button',{detail:{}})))
     }
 }
