@@ -43,7 +43,17 @@ export class EventHandler{
 
     /**Evento: Activación del constructor */
     static #defineConstructorEvent(uiObject){
-        console.log("Se ejecuta 1 vez: cuando deifnimos el Listener")
         uiObject.constructor.addEventListener('click', () => document.dispatchEvent(new CustomEvent('click-on-constructor-button',{detail:{}})))
+
+        const inputsContainer = document.querySelector("#timerInputs")
+        const inputRadioArray = document.querySelectorAll('input[name="timerType"]')
+
+        inputRadioArray.forEach(radio => radio.addEventListener('change', (e) => {
+            //Disparar Evento______
+            document.dispatchEvent(new CustomEvent('constructor-mode',{detail:{mode: e.target.value}}))
+            e.target.value === 'stopwatch' 
+                ?   inputsContainer.classList.add('hidden')  
+                :   inputsContainer.classList.remove('hidden')
+        }))
     }
 }
