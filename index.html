@@ -36,9 +36,9 @@
         </section>
 
             <!-- Nuevo Constructor -->
-        <!------------------------------------------------------>    
         
         <section class="container" id="constructor">
+
             <div class="block modern-block" id="constructor-block">
                 <div class="constructor-header">
                     <!-- Selector de Tipo: (con efecto píldora) -->
@@ -52,53 +52,39 @@
                         <!-- Este es el nuevo elemento que crea el efecto deslizante -->
                         <div class="pill"></div>
                     </div>
-                
                     <!-- Input para el nombre -->
                     <div class="input-group" id="input-for-name">
                         <input type="text" id="inputName" placeholder="Nombre (ej. 'Cocinar pasta')">
                     </div>
                 </div>
 
-                <!-- Inputs para configurar el tiempo del Temporizador -->
-                <div class="constructor-inputs" id="timerInputs">
-                    <div class="input-group">
-                        <input type="number" id="inputDays" placeholder="Días" data-factor="86400" min="0">
+                <div class="block constructor-body">                  
+                    <!-- Inputs para configurar el tiempo del Temporizador -->
+                    <div class="constructor-inputs" id="timerInputs">
+                        <div class="input-group">
+                            <input type="number" id="inputDays" placeholder="Días" data-factor="86400" min="0">
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="inputHours" placeholder="Horas" data-factor="3600" min="0">
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="inputMinuts" placeholder="Min" data-factor="60" min="0">
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="inputSeconds" placeholder="Seg" data-factor="1" min="0">
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <input type="number" id="inputHours" placeholder="Horas" data-factor="3600" min="0">
-                    </div>
-                    <div class="input-group">
-                        <input type="number" id="inputMinuts" placeholder="Min" data-factor="60" min="0">
-                    </div>
-                    <div class="input-group">
-                        <input type="number" id="inputSeconds" placeholder="Seg" data-factor="1" min="0">
+    
+                    <!-- Botón para crear el temporizador/cronómetro -->
+                    <div class="constructor-button">
+                        <button class="ui-btn">
+                            <span class="btn-span-icon" hidden>( + )</span>
+                            <span class="btn-span-name">Crear nuevo (+)</span> 
+                        </button>
                     </div>
                 </div>
-
-                <!-- Botón para crear el temporizador/cronómetro -->
-                <div class="constructor-button">
-                    <button class="ui-btn">+ Crear nuevo</button>
-                </div>
-
             </div>
         </section>         
-
-        <!------------------------------------------------------>    
-            <!-- Constructor -->    
-        <section class="container" id="constructor">
-            <div class="block">
-                <div class="constructor-button">
-                    <button class="ui-btn">+ Crear-nuevo</button>
-                </div>  
-                <div class="constructor-inputs">
-                    <input type="text" id="inputDays" placeholder="Dias" data-factor="86400">
-                    <input type="text" id="inputHours" placeholder="Horas" data-factor="3600">
-                    <input type="text" id="inputMinuts" placeholder="min" data-factor="60">
-                    <input type="text" id="inputSeconds" placeholder="secs" data-factor="1">
-                </div>
-            </div>   
-        </section>
-
     </main>
     
     <footer></footer>

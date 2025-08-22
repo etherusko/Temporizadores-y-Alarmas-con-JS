@@ -5,7 +5,8 @@ export class Reloj {
 
 //================== Estatic Scope: ==================//
     //Variables Estáticas:
-    static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
+    //static alarma = new Audio("src/generic-alarm-clock-86759.mp3")   //temporal
+    static alarma = new Audio("https://cdn.pixabay.com/audio/2023/01/17/audio_30562b0314.mp3")   //temporal
     static relojMap = new Map()
     static uiObject = {
         //Hay que sobreescribir este objeto con los elementos de DOM desde index.js
@@ -14,6 +15,11 @@ export class Reloj {
         constructor : "eventListener a cargo de crear nuevos bloques",
         inputs : "Inputs del DOM para captura el tiempo ingressado por el usuario"
     }
+    static mode = "timer" // stopwatch
+    static modeMap = new Map([
+        ["timer", () => new Timer()],
+        ["stopwatch", () => new Stopwatch()]
+    ])
 
     //Funciones Estáticas:    
  //.....Inicia en index.js | Se ejecuta 1 vez
@@ -44,9 +50,11 @@ export class Reloj {
     }
         //.... ==> Aqui se instancia new Reloj() dentro de un listener:
     static #initGlobalListeners(){
-        //EventHandler.observer.observe(  )
+        EventHandler.observer.observe(document.getElementById("constructor-block"))
+        EventHandler.observer.observe(document.querySelector(".constructor-body"))
+        document.addEventListener('constructor-mode',(e) => this.mode = e.detail.mode)
         document.addEventListener('click-on-constructor-button', () => {
-            const reloj = new Reloj()
+            const reloj = this.modeMap.get(this.mode)()
             EventHandler.observer.observe(reloj.block)
             EventHandler.observer.observe(reloj.block.querySelector(".display-time"))
             EventHandler.observer.observe(reloj.block.querySelector(".display-buttons"))
@@ -84,7 +92,8 @@ export class Reloj {
 
 //================== Constructor: ==================//
 
-    constructor(){
+    constructor(mode){
+        this.mode = mode
         this.block = Reloj.#clonTemplate(this) || undefined   //Contraparte del objeto en la interfaz del DOM
         this.time = Reloj.#calcTimeFromInputs() || 0       //tiempo ingresado en milisegundos
         this.saved_time = 0         //tiempo acumulado
@@ -137,7 +146,7 @@ export class Reloj {
         if(this.isRunning){
             this.calcTime()
             this.delta_time = Date.now() - this.actual_time_mark
-            if (this.calculated_time <= 0){
+            if (this.calculated_time < 0){
                 console.log("menor que 0 detect")
                 return true
             }
@@ -145,8 +154,7 @@ export class Reloj {
         return undefined
     }
     calcTime(){
-        const total_count = this.saved_time + this.delta_time
-        this.calculated_time = this.time - total_count
+        console.log("implemente el método en una subclase")
         //const global_time = this.time + total_count     //cronómetro
         //const global_time = this.time - total_count    //temporizador
     }
@@ -178,7 +186,28 @@ export class Reloj {
     }
 //===============================================================//
 
-}    
+}
+
+class Timer extends Reloj {
+    constructor(){
+        super()
+    }
+    calcTime(){
+        const total_count = this.saved_time + this.delta_time
+        this.calculated_time = this.time - total_count
+    }
+}
+
+class Stopwatch extends Reloj {
+    constructor(){
+        super()
+    }
+    calcTime(){
+        const total_count = this.saved_time + this.delta_time
+        this.calculated_time = this.time + total_count
+    }
+}
+
 /**
  * Clase Reloj:
  * ¿Qué hace?
